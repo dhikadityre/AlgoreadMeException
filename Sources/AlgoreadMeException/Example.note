@@ -1,0 +1,109 @@
+//
+//  Example.note
+//  AlgoreadMeException
+//
+//  Created by @algoreadme on 05/08/25.
+//
+
+/*
+Task {
+    do {
+        let result: MyModel = try await processApiCall(
+            module: "User",
+            function: "getUser",
+            call: {
+                // misalnya pakai URLSession
+                let (data, _) = try await URLSession.shared.data(from: URL(string: "https://api.example.com/user")!)
+                return try JSONDecoder().decode(MyModel.self, from: data)
+            }
+        )
+        print("Result:", result)
+    } catch let error as CoreException {
+        print("Handled CoreException:", error)
+    } catch {
+        print("Unhandled error:", error)
+    }
+}
+ 
+ // Data Layer
+ func request<T: Decodable>(
+     _ urlRequest: URLRequest,
+     decodeTo type: T.Type
+ ) async throws -> T {
+     do {
+         let (data, response) = try await URLSession.shared.data(for: urlRequest)
+
+         guard let httpResponse = response as? HTTPURLResponse else {
+             throw UndefineResponseErrorException()
+         }
+
+         if !(200..<300).contains(httpResponse.statusCode) {
+             if let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any] {
+                 throw ApiErrorException(statusCode: httpResponse.statusCode, responseBody: json)
+             }
+             throw ApiErrorException(statusCode: httpResponse.statusCode, responseBody: [:])
+         }
+
+         do {
+             return try JSONDecoder().decode(T.self, from: data)
+         } catch {
+             throw DecodeFailedException(underlying: error)
+         }
+
+     } catch {
+         if let urlError = error as? URLError, urlError.code == .timedOut {
+             throw RequestTimeOutException()
+         }
+         throw GeneralException(message: error.localizedDescription)
+     }
+ }
+ 
+ func request<T: Decodable>(
+     _ urlRequest: URLRequest,
+     decodeTo type: T.Type
+ ) async throws -> T {
+     do {
+         let (data, response) = try await URLSession.shared.data(for: urlRequest)
+
+         guard let httpResponse = response as? HTTPURLResponse else {
+             throw UndefineResponseErrorException()
+         }
+
+         if !(200..<300).contains(httpResponse.statusCode) {
+             if let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any] {
+                 throw ApiErrorException(statusCode: httpResponse.statusCode, responseBody: json)
+             }
+             throw ApiErrorException(statusCode: httpResponse.statusCode, responseBody: [:])
+         }
+
+         do {
+             return try JSONDecoder().decode(T.self, from: data)
+         } catch {
+             throw DecodeFailedException(underlying: error)
+         }
+
+     } catch {
+         if let urlError = error as? URLError, urlError.code == .timedOut {
+             throw RequestTimeOutException()
+         }
+         throw GeneralException(message: error.localizedDescription)
+     }
+ }
+ 
+ // Presentation
+ Task {
+     do {
+         let data: UserModel = try await apiService.request(urlRequest, decodeTo: UserModel.self)
+         // handle success
+     } catch is RequestTimeOutException {
+         // show "Koneksi terlalu lama"
+     } catch is DecodeFailedException {
+         // show "Gagal memproses data"
+     } catch is ApiErrorException {
+         // tampilkan pesan dari BE
+     } catch {
+         // fallback
+         print("Error: \(error.localizedDescription)")
+     }
+ }
+*/
